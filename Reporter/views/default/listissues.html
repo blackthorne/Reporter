@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+<script>
+jQuery(document).ready(function(){
+  jQuery("table.sortable tbody tr").mouseover( function() {
+     jQuery(this).addClass("highlight"); }).mouseout( function() { 
+     jQuery(this).removeClass("highlight"); });
+  jQuery('table.sortable tbody tr:odd').addClass('odd');
+  jQuery('table.sortable tbody tr:even').addClass('even');
+});
+</script>
+
+<style>
+list-style-type: none;
+</style>
+<div style="overflow: auto;">
+{{if db(db.issues.audit == audit).count():}}
+{{=SQLTABLE(issues,headers='fieldname:capitalize',orderby=True,_class='sortable')}}
+{{pass}}
+</div><br/>
+<button onclick="self.location='{{=URL(r=request,c='default',f='addissue',args=audit)}}'">Add Issue</button>
+{{if db(db.issues.audit == audit).count():}}
+<button onclick="self.location='{{=URL(r=request,c='default',f='genreport',args=audit)}}'">Generate Report</button>
+{{pass}}

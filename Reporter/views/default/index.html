@@ -1,0 +1,24 @@
+{{extend 'layout.html'}}
+
+{{if db(db.audits).count():}}
+<TABLE><thead>
+<tr><th>Audit</th><th>Num. Vulns</th><th>profile</th><th>when</th><th>by</th></tr>
+</thead>
+{{for audit in audits:}}
+<tr>
+{{for item in audit[1:]:}}
+<td align="center">
+{{=A(item,_href=URL(r=request,c='default',f='listissues',args=audit[0]))}}
+</td>
+{{pass}}
+</tr>
+{{pass}}
+</TABLE>
+{{pass}}
+
+{{=auds}}
+
+<button onclick="$('#addaudit').slideToggle()">Create new audit</button> 
+<div id="addaudit" class="h">
+{{=crud.create(db.audits,onaccept=lambda form: redirect(URL(r=request,c='default',f='listissues',args=form.vars.id)))}}</div> 
+<script>$(document).ready(function(){$('.h').hide()});</script> 

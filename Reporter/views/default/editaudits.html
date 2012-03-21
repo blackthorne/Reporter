@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+ <div style="overflow: auto;" width="80%">
+       {{linkto=URL(c='default',f='data',args='update')}}
+       {{upload=URL(c='download',f='data',args='update')}}    
+       {{=SQLTABLE(rows,linkto,upload,orderby=True,_class='sortable')}}
+</div>

@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+<button onclick="self.location='{{=URL(r=request,c='default',f='listissues',args=request.args(0))}}'">Get Back</button>
+
+<pre>
+{{=report}}
+</pre>
+
+<button onclick="self.location='{{=URL(r=request,c='default',f='listissues',args=request.args(0))}}'">Get Back</button>

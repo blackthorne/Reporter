@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+<button onclick="self.location='{{=URL(r=request,c='default',f='listissues',args=audit)}}'">Get Back</button>
+<br/><br/>
+<label for="issue">Search issue:</label><br />
+<input type="text" id="issue" name="issue" autocomplete="off" onkeyup="getData(this.value);" /><br />
+<div id="ajaxresults"></div>
+{{=form}}    
+<script type="text/javascript">
+document.prob.audit.value = {{=request.args(0)}}
+//document.prob.found_by.value = 
+</script>
+
+<button onclick="self.location='{{=URL(r=request,c='default',f='listissues',args=audit)}}'">Get Back</button>

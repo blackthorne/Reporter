@@ -1,0 +1,109 @@
+timestamp: 2012-03-21T21:29:39.534298
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2012-03-21T21:29:39.702131
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2012-03-21T21:29:39.710203
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2012-03-21T21:29:39.716907
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group(id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2012-03-21T21:29:39.722533
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2012-03-21T21:29:39.729302
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2012-03-21T21:29:39.738893
+CREATE TABLE settings(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    profile CHAR(512),
+    maximum_severity INTEGER,
+    urgent INTEGER,
+    critical INTEGER,
+    serious INTEGER,
+    medium INTEGER,
+    low INTEGER,
+    urgent_label CHAR(512),
+    critical_label CHAR(512),
+    serious_label CHAR(512),
+    medium_label CHAR(512),
+    low_label CHAR(512)
+);
+success!
+timestamp: 2012-03-21T21:29:39.744807
+CREATE TABLE audits(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512),
+    who INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    fingerprint TEXT,
+    profile INTEGER REFERENCES settings(id) ON DELETE CASCADE,
+    when_at TIMESTAMP
+);
+success!
+timestamp: 2012-03-21T21:29:39.761073
+CREATE TABLE categories(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512)
+);
+success!
+timestamp: 2012-03-21T21:29:39.767503
+CREATE TABLE issues(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512),
+    category INTEGER REFERENCES categories(id) ON DELETE CASCADE,
+    object CHAR(512),
+    vulnerability CHAR(512),
+    sev INTEGER,
+    impact CHAR(512),
+    vuln_assert CHAR(512),
+    exposure CHAR(512),
+    combo_factor CHAR(512),
+    details TEXT,
+    links TEXT,
+    correction TEXT,
+    file CHAR(512),
+    found_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    when_at TIMESTAMP,
+    audit INTEGER REFERENCES audits(id) ON DELETE CASCADE
+);
+success!

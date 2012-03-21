@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+
+{{if db(db.categories).count():}}
+{{=SQLTABLE(categories,orderby=True,_class='sortable')}}
+{{pass}}
+
+<button onclick="$('#addcategory').slideToggle()">Add Category</button> 
+<div id="addcategory" class="h">
+{{=crud.create(db.categories, next="editcategories")}}</div> 
+<script>$(document).ready(function(){$('.h').hide()});</script> 
+
